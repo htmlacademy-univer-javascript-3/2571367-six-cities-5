@@ -7,23 +7,35 @@ import OfferPage from './components/OfferPage';
 import Error404 from './components/Error404';
 import PrivateRoute from './components/PrivateRoute';
 
-export default function App() {
+type Offer = {
+  id: number;
+  title: string;
+  price: number;
+  rating: number;
+  type: string;
+  isPremium: boolean;
+  previewImage: string;
+};
 
-  const offers = 312;
-  const isAuth = false;
+type AppProps = {
+  offers: Offer[];
+};
+
+export default function App({ offers }: AppProps) {
+  const isAuth = true;
 
   return (
     <Router>
       <Routes>
-        <Route path='/' element={<MainPage offers={offers} />} />
-        <Route path='/login' element={<LoginPage />} />
-        <Route path='/offer/:id' element={<OfferPage />} />
-        <Route path='*' element={<Error404 />} />
+        <Route path="/" element={<MainPage offers={offers} />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/offer/:id" element={<OfferPage />} />
+        <Route path="*" element={<Error404 />} />
         <Route
           path="/favorites"
           element={
             <PrivateRoute isAuth={isAuth}>
-              <FavoritesPage />
+              {<FavoritesPage offers={offers} />}
             </PrivateRoute>
           }
         />
