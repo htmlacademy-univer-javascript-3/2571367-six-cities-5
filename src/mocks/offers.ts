@@ -2,7 +2,7 @@ export const offers = [
   {
     id: 1,
     title: 'Luxury Apartment in Downtown',
-    price: 250,
+    price: 251,
     rating: 4.9,
     type: 'Apartment',
     isPremium: true,
@@ -11,7 +11,7 @@ export const offers = [
   {
     id: 2,
     title: 'Cozy House in Suburbs',
-    price: 100,
+    price: 101,
     rating: 4.7,
     type: 'House',
     isPremium: false,
@@ -20,7 +20,7 @@ export const offers = [
   {
     id: 3,
     title: 'Stylish Studio in City Center',
-    price: 150,
+    price: 151,
     rating: 4.8,
     type: 'Studio',
     isPremium: false,
