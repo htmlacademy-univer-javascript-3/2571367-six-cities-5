@@ -12,7 +12,6 @@ export type MapProps = {
   points: Points;
 };
 
-
 function MainPage({ MainPageCardProps, offer, MapProps }: { MainPageCardProps: mainPageTypes; offer:OfferDescription[]; MapProps:MapProps}):JSX.Element{
   const {city, points} = MapProps;
   const [selectedPoint, setSelectedPoint] = useState<Point | undefined>(undefined);

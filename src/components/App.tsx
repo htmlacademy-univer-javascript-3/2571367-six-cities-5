@@ -18,6 +18,7 @@ const MAPPROPS:MapProps = {
   city:CITY,
   points:POINTS
 };
+
 function App({ MainPageCardProps, guestReview, offer } : { MainPageCardProps: mainPageTypes; guestReview: review[]; offer: OfferDescription[] }): JSX.Element {
   return(
     <BrowserRouter>
