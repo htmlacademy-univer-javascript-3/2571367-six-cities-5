@@ -1,3 +1,5 @@
+import CommentForm from './CommentForm';
+
 export default function OfferPage() {
   return (
     <div className="page">
@@ -331,6 +333,10 @@ export default function OfferPage() {
             </div>
           </section>
         </div>
+        <section className="offer__reviews reviews">
+          <h2 className="reviews__title">Reviews</h2>
+          <CommentForm /> {/* Интеграция формы комментариев */}
+        </section>
       </main>
     </div>
   );
