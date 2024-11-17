@@ -1,7 +1,7 @@
 export const offers = [
   {
     id: 1,
-    title: 'Luxury Apartment in Downtown',
+    title: 'Luxury Apartmentasdfasd in Downtown',
     price: 251,
     rating: 4.9,
     type: 'Apartment',
