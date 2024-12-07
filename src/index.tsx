@@ -1,28 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import {Provider} from 'react-redux';
 import App from './components/App.tsx';
-import { offer } from './mocks/offers.ts';
 import { guestReview } from './mocks/review.ts';
-
+import { store } from './store/index.ts';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 
-
-type mainPageTypes={
-    numberOfPlaces:number;
-};
-export type {mainPageTypes};
-
-const mainPageCardInfo:mainPageTypes = {
-  numberOfPlaces:312
-};
-export default {mainPageCardInfo} ;
-
-
 root.render(
   <React.StrictMode>
-    <App MainPageCardProps={mainPageCardInfo} guestReview={guestReview} offer ={offer}/>
+    <Provider store={store}>
+      <App guestReview={guestReview}/>
+    </Provider>
   </React.StrictMode>
 );

@@ -1,3 +1,4 @@
+import { Point } from './points';
 export type OfferDescription = {
   images:string[];
   isPremium:boolean;
@@ -13,4 +14,10 @@ export type OfferDescription = {
   hostAvatar:string;
   description:string[];
   id:string;
+  point:Point;
 };
+
+export type CityOfferDescription = {
+  offer:OfferDescription[];
+  city:string;
+}
