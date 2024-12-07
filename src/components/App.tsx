@@ -6,10 +6,10 @@ import { CITY } from '../mocks/city.ts';
 
 import { review } from '../types/review.ts';
 
-import { useAppSelector } from '../hooks/index.ts';
-
+import { useAppSelector } from '../hooks/index.tsx';
 
 import MainPage from './MainPage/MainPage.tsx';
+
 import NotFoundPage from './NotFoundPage/NotFoundPage.tsx';
 import OfferPage from './OfferPage/OfferPage.tsx';
 import FavouritePage from './FavouritePage/FavoritePage.tsx';

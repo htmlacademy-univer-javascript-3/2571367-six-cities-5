@@ -1,4 +1,5 @@
 
+
 import { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 
@@ -6,8 +7,8 @@ import { CityOfferDescription, OfferDescription } from '../../types/offerDescrip
 import { review } from '../../types/review.ts';
 import { City, Point } from '../../types/points.ts';
 
-import ReviewForm from '../ReviewForm/ReviewForm.tsx';
-import OfferList from '../OfferList/OfferList.tsx';
+import ReviewForm from '../../components/ReviewForm/ReviewForm.tsx';
+import OfferList from '../../components/OfferList/OfferList.tsx';
 
 import Map from '../Map/Map.tsx';
 import ReviewList from '../ReviewList/ReviewList.tsx';
