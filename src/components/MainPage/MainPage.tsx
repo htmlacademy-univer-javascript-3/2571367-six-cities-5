@@ -1,20 +1,19 @@
 
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-
-import { useAppSelector } from '../../hooks/index.ts';
+import { useAppSelector } from '../../hooks/index.tsx';
 import { CITY } from '../../mocks/city.ts';
 import { Point } from '../../types/points.ts';
 import { CityOfferDescription } from '../../types/offerDescription.ts';
-
 import CityList from '../CityList/CityList.tsx';
-import Map from '../Map/Map.tsx';
-import OfferList from '../OfferList/OfferList.tsx';
+import Map from '../Map/Map';
+import OfferList from '../../components/OfferList/OfferList.tsx';
 
 function MainPage({ MapProps }: { MapProps:CityOfferDescription}):JSX.Element{
   const {offer} = MapProps;
   const [selectedPoint, setSelectedPoint] = useState<Point | undefined>(undefined);
   const cityName = useAppSelector((state) => state.city);
+
   const handleListItemHover = (listItemId: string) => {
     const currentPoint = offer.find((point) => point.id.toString() === listItemId)?.point;
     setSelectedPoint(currentPoint);

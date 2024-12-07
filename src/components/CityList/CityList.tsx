@@ -1,9 +1,8 @@
 import { CITY } from '../../mocks/city.ts';
-import { useAppDispatch, useAppSelector } from '../../hooks/index.ts';
+import {useAppDispatch, useAppSelector} from '../../hooks/index.tsx';
 import { changeCityAction, offerFillAction } from '../../store/cityAction.ts';
 import {Link} from 'react-router-dom';
 import { offer } from '../../mocks/offers.ts';
-
 function CityList(){
   const dispatch = useAppDispatch();
   const cityName = useAppSelector((state) => state.city);

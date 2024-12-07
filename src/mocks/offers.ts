@@ -1,3 +1,4 @@
+
 import {CityOfferDescription} from '../types/offerDescription';
 export const offer:CityOfferDescription[] =
 [{

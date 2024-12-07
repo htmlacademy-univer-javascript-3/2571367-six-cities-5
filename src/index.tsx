@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import {Provider} from 'react-redux';
 import App from './components/App.tsx';
 import { guestReview } from './mocks/review.ts';
+
 import { store } from './store/index.ts';
 
 const root = ReactDOM.createRoot(
