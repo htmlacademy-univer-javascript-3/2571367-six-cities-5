@@ -1,20 +1,27 @@
 
 import { useState } from 'react';
 import { OfferDescription, OfferIdDescription } from '../../types/offerDescription.ts';
-import { review } from '../../types/review.ts';
 import ReviewForm from '../ReviewForm/ReviewForm.tsx';
 import ReviewList from '../ReviewList/ReviewList.tsx';
 import OfferList from '../OfferList/OfferList.tsx';
 import Map from '../Map/Map.tsx';
 import { CITY } from '../../mocks/city.ts';
 import UserHeaderInfo from '../UserHeaderInfo/UserHeaderInfo.tsx';
+import { useAppSelector } from '../../hooks/index.tsx';
+import { Comment } from '../../types/comment.ts';
+import { AuthorizationStatus } from '../../mocks/login.ts';
 
-function OfferPage({ offer, offerList, guestReview, city}: {offer:OfferIdDescription ; offerList:OfferDescription[]; guestReview:review[];city:string}):JSX.Element{
+function OfferPage({ offer, offerList, city}: {offer:OfferIdDescription ; offerList:OfferDescription[]; city:string}):JSX.Element{
   const [selectedPoint, setSelectedPoint] = useState<OfferDescription | undefined>(undefined);
+  const authStatus = useAppSelector((state) => state.authorizationStatus);
+
   const handleListItemHover = (listItemId: string) => {
     const currentPoint = offerList.find((o) => o.id.toString() === listItemId);
     setSelectedPoint(currentPoint);
   };
+
+  const nearbyOffers = useAppSelector((store) => store.nearbyOffers);
+  const comments:Comment[] = useAppSelector((store) => store.comments);
   return (
 
     <div className="page">
@@ -104,12 +111,8 @@ function OfferPage({ offer, offerList, guestReview, city}: {offer:OfferIdDescrip
                 </div>
               </div>
               <section className="offer__reviews reviews">
-                <ReviewList guestReview = {guestReview}/>
-                <ReviewForm
-                  onAnswer={() => {
-                    throw new Error('Function \'onAnswer\' isn\'t implemented.');
-                  }}
-                />
+                <ReviewList guestReview = {comments}/>
+                {authStatus === AuthorizationStatus.Auth ? <ReviewForm/> : null}
               </section>
 
             </div>
@@ -127,7 +130,7 @@ function OfferPage({ offer, offerList, guestReview, city}: {offer:OfferIdDescrip
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
-            <OfferList offer={offerList.filter((o) => o.id === offer.id)} onListItemHover={handleListItemHover} isMainPage = {false} city={city}/>
+            <OfferList offer={nearbyOffers} onListItemHover={handleListItemHover} isMainPage = {false} city={city}/>
           </section>
         </div>
       </main>

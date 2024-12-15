@@ -69,7 +69,7 @@ function MainPage({ offerList }: { offerList: OfferDescription[] }): JSX.Element
                   city={CITY.filter((c) => c.title === cityName)[0]}
                   selectedOffer={offerList.filter((i) => i.id === selectedPoint?.id)[0] }
                   offerList={offerList}
-                  height={407.27}
+                  height={850}
                   width={512}
                 />
               </section>

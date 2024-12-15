@@ -1,6 +1,7 @@
 import {createAction} from '@reduxjs/toolkit';
 import { OfferDescription, OfferIdDescription } from '../types/offerDescription';
 import {AppRoute, AuthorizationStatus} from '../mocks/login';
+import { Comment } from '../types/comment';
 
 export const changeCityAction = createAction<string>('city/Change');
 export const offerFillAction = createAction<OfferDescription[]>('offer/Fill');
@@ -11,3 +12,5 @@ export const setDataLoadingStatus = createAction<boolean>('data/setDataLoadingSt
 export const requireAuthorization = createAction<AuthorizationStatus>('user/requireAuthorization');
 export const redirectToRoute = createAction<AppRoute>('city/redirectToRoute');
 export const fillUserEmail = createAction<string>('user/FillEmail');
+export const loadOfferNearby = createAction<OfferDescription[]>('data/loadOfferNearby');
+export const loadComments = createAction<Comment[]>('data/loadComments');

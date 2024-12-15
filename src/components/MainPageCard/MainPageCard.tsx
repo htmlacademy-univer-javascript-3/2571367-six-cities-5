@@ -2,13 +2,15 @@ import { OfferDescription } from '../../types/offerDescription.ts';
 import {useState} from 'react';
 import { Link } from 'react-router-dom';
 import {MouseEvent} from 'react';
+import { fetchComments, fetchOffer, fetchOfferNeibourhood } from '../../store/apiActions.ts';
+import { store } from '../../store/index.ts';
 
 type CardIdProps = {onAnswer: (cardId:string) => void}
 
 type MainPageCardProps = {
   offer: OfferDescription;
   onListItemHover: (listItemName: string) => void;
-  isMainPage: boolean;
+  isMainPage:boolean;
 } & CardIdProps;
 
 function MainPageCard({ offer, onAnswer, onListItemHover, isMainPage}: MainPageCardProps): JSX.Element {
@@ -19,9 +21,22 @@ function MainPageCard({ offer, onAnswer, onListItemHover, isMainPage}: MainPageC
     onListItemHover((offer.id));
     onAnswer(cardId);
   };
+  const handleListItemLeave = (event: MouseEvent<HTMLLIElement>) => {
+    event.preventDefault();
+    setCardId('0');
+    onListItemHover('0');
+
+  };
+  const handleOfferIdLoad = (event: MouseEvent<HTMLElement>) => {
+    event.preventDefault();
+    store.dispatch(fetchOffer(offer.id));
+    store.dispatch(fetchOfferNeibourhood(offer.id));
+    store.dispatch(fetchComments(offer.id));
+  };
   return(
     <article className={isMainPage ? 'cities__card place-card' : 'near-places__card place-card'}
       onMouseEnter={handleListItemHover}
+      onMouseLeave={handleListItemLeave}
     >
       {offer.isPremium ? (
         <div className="place-card__mark">
@@ -52,7 +67,9 @@ function MainPageCard({ offer, onAnswer, onListItemHover, isMainPage}: MainPageC
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
-        <h2 className="place-card__name">
+        <h2 className="place-card__name"
+          onClick={handleOfferIdLoad}
+        >
           <Link to={`/offer/${offer.id}`}>{offer.title}</Link>
         </h2>
         <p className="place-card__type">{offer.type}</p>
