@@ -3,7 +3,6 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import {Provider} from 'react-redux';
 import App from './components/App.tsx';
-import {guestReview} from './mocks/review.js';
 import {store} from './store';
 import { fetchOffers } from './store/apiActions.ts';
 import { checkAuthAction } from './store/apiActions.ts';
@@ -22,7 +21,7 @@ root.render(
   <React.StrictMode>
     <Provider store={store}>
       <ToastContainer/>
-      <App guestReview={guestReview}/>
+      <App/>
     </Provider>
   </React.StrictMode>
 );

@@ -1,9 +1,10 @@
 import {createReducer} from '@reduxjs/toolkit';
-import {changeCityAction, fillUserEmail, loadOffer, loadOfferList} from './cityAction';
+import {changeCityAction, fillUserEmail, loadComments, loadOffer, loadOfferList, loadOfferNearby} from './cityAction';
 import { offerFillAction,setDataLoadingStatus, requireAuthorization } from './cityAction';
 import { OfferDescription, OfferIdDescription } from '../types/offerDescription';
 import { emptyOffer } from '../mocks/offer';
 import {AuthorizationStatus} from '../mocks/login';
+import { Comment } from '../types/comment';
 
 type InitialOfferState = {
   offerlist : OfferDescription[];
@@ -12,6 +13,8 @@ type InitialOfferState = {
   offer: OfferIdDescription ;
   authorizationStatus: AuthorizationStatus;
   userEmail:string;
+  nearbyOffers: OfferDescription[];
+  comments:Comment[];
 }
 
 const initialCityState:InitialOfferState = {
@@ -20,7 +23,9 @@ const initialCityState:InitialOfferState = {
   isDataLoading: false,
   offer:emptyOffer,
   authorizationStatus: AuthorizationStatus.Unknown,
-  userEmail:''
+  userEmail:'',
+  nearbyOffers:[],
+  comments:[]
 };
 
 const reducer = createReducer(initialCityState, (builder) => {
@@ -46,6 +51,12 @@ const reducer = createReducer(initialCityState, (builder) => {
     })
     .addCase(fillUserEmail, (state, action) => {
       state.userEmail = action.payload;
+    })
+    .addCase(loadOfferNearby, (state, action) => {
+      state.nearbyOffers = action.payload;
+    })
+    .addCase(loadComments, (state, action) => {
+      state.comments = action.payload;
     });
 });
 
