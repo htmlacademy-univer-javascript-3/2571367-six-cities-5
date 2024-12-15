@@ -1,23 +1,57 @@
-import { Point } from './points';
 export type OfferDescription = {
-  images:string[];
-  isPremium:boolean;
-  offerName:string;
-  raiting:number;
-  features:string[];
-  price:number;
-  bookmark:string;
-  raitingStars:string;
-  inside:string[];
-  hostName:string;
-  hostStatus:string;
-  hostAvatar:string;
-  description:string[];
-  id:string;
-  point:Point;
-};
+  id: string;
+  title: string;
+  type: string;
+  price: number;
+  city: {
+  name: string;
+  location: {
+    latitude: number;
+    longitude: number;
+    zoom: number;
+    };
+  };
+  location: {
+  latitude: number;
+  longitude: number;
+  zoom: number;
+  };
+  isFavorite: boolean;
+  isPremium: boolean;
+  rating: number;
+  previewImage: string;
+  };
 
-export type CityOfferDescription = {
-  offer:OfferDescription[];
-  city:string;
-}
+export type OfferIdDescription = {
+
+  id: string;
+  title: string;
+  type: string;
+  price: number;
+  city: {
+  name: string;
+  location: {
+  latitude: number;
+  longitude: number;
+  zoom: number;
+  };
+  };
+  location: {
+  latitude: number;
+  longitude: number;
+  zoom: number;
+  };
+  isFavorite: boolean;
+  isPremium: boolean;
+  rating: number;
+  description: string;
+  bedrooms: number;
+  goods: [string];
+  host: {
+  name: string;
+  avatarUrl: string;
+  isPro: boolean;
+  };
+  images: [string];
+  maxAdults: number;
+};

@@ -1,9 +1,9 @@
 
-import { CityOfferDescription } from '../../types/offerDescription';
+import { OfferDescription } from '../../types/offerDescription';
 import {Link} from 'react-router-dom';
 
 interface FavouritePageProps {
-  offers: CityOfferDescription;
+  offers: OfferDescription[];
 }
 
 function FavouritePage({ offers }: FavouritePageProps): JSX.Element {
@@ -54,7 +54,7 @@ function FavouritePage({ offers }: FavouritePageProps): JSX.Element {
                   </div>
                 </div>
                 <div className="favorites__places">
-                  {offers.offer.map((offer) => (
+                  {offers.map((offer) => (
                     <div key={offer.id} className="favorites__places">
                       <article className="favorites__card place-card">
                         {offer.isPremium ? (
@@ -63,7 +63,7 @@ function FavouritePage({ offers }: FavouritePageProps): JSX.Element {
                           </div>) : null}
                         <div className="favorites__image-wrapper place-card__image-wrapper">
                           <a href="#">
-                            <img className="place-card__image" src={offer.images[0]} width="150" height="110" alt="Place image"/>
+                            <img className="place-card__image" src={offer.previewImage} width="150" height="110" alt="Place image"/>
                           </a>
                         </div>
                         <div className="favorites__card-info place-card__info">
@@ -81,14 +81,14 @@ function FavouritePage({ offers }: FavouritePageProps): JSX.Element {
                           </div>
                           <div className="place-card__rating rating">
                             <div className="place-card__stars rating__stars">
-                              <span style={{width: offer.raitingStars}}></span>
+                              <span style={{width: `${(offer.rating / 5) * 100}%`}}></span>
                               <span className="visually-hidden">Rating</span>
                             </div>
                           </div>
                           <h2 className="place-card__name">
-                            <a href="#">{offer.offerName}</a>
+                            <a href="#">{offer.title}</a>
                           </h2>
-                          <p className="place-card__type">{offer.features[0]}</p>
+                          <p className="place-card__type">{offer.type}</p>
                         </div>
                       </article>
                     </div>

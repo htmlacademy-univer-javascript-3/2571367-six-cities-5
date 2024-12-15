@@ -1,3 +1,4 @@
+
 import { CityMapPoint } from '../types/points.ts';
 export const POINTS:CityMapPoint[] =
 [{
