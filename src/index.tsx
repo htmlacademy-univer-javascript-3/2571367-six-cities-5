@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom/client';
 import {Provider} from 'react-redux';
 import App from './components/App.tsx';
 import {guestReview} from './mocks/review.js';
-import {store} from './store';
+import {store} from './store/index.ts';
 import { fetchOffers } from './store/apiActions.ts';
 
 store.dispatch(fetchOffers());

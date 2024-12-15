@@ -2,13 +2,13 @@
 import { useState, useMemo } from 'react';
 import OfferList from '../OfferList/OfferList.tsx';
 import { Link } from 'react-router-dom';
-import Map from '../Map/Map';
-import { useAppSelector } from '../../hooks';
+import Map from '../Map/Map.tsx';
+import { useAppSelector } from '../../hooks/index.tsx';
 import { CITY } from '../../mocks/city.ts';
 import CityList from '../CityList/CityList.tsx';
 import { OfferDescription } from '../../types/offerDescription.ts';
 import SortFilter from '../SortFilter/SortFilter.tsx';
-import { FILTERS } from '../../mocks/filter';
+import { FILTERS } from '../../mocks/filter.ts';
 
 function MainPage({ offerList }: { offerList: OfferDescription[] }): JSX.Element {
   const [selectedPoint, setSelectedPoint] = useState<OfferDescription | undefined>(undefined);

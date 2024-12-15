@@ -1,4 +1,3 @@
-
 import { FILTERS } from '../../mocks/filter';
 import {MouseEvent} from 'react';
 import { useState } from 'react';
