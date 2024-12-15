@@ -1,21 +1,26 @@
 import {createReducer} from '@reduxjs/toolkit';
-import {changeCityAction, loadOffer, loadOfferList} from './cityAction';
-import { offerFillAction,setDataLoadingStatus } from './cityAction';
+import {changeCityAction, fillUserEmail, loadOffer, loadOfferList} from './cityAction';
+import { offerFillAction,setDataLoadingStatus, requireAuthorization } from './cityAction';
 import { OfferDescription, OfferIdDescription } from '../types/offerDescription';
 import { emptyOffer } from '../mocks/offer';
+import {AuthorizationStatus} from '../mocks/login';
 
 type InitialOfferState = {
   offerlist : OfferDescription[];
   city: string;
   isDataLoading : boolean;
   offer: OfferIdDescription ;
+  authorizationStatus: AuthorizationStatus;
+  userEmail:string;
 }
 
 const initialCityState:InitialOfferState = {
   offerlist: [],
   city : 'Paris',
   isDataLoading: false,
-  offer:emptyOffer
+  offer:emptyOffer,
+  authorizationStatus: AuthorizationStatus.Unknown,
+  userEmail:''
 };
 
 const reducer = createReducer(initialCityState, (builder) => {
@@ -35,6 +40,12 @@ const reducer = createReducer(initialCityState, (builder) => {
     })
     .addCase(loadOffer,(state,action)=>{
       state.offer = action.payload;
+    })
+    .addCase(requireAuthorization, (state, action) => {
+      state.authorizationStatus = action.payload;
+    })
+    .addCase(fillUserEmail, (state, action) => {
+      state.userEmail = action.payload;
     });
 });
 

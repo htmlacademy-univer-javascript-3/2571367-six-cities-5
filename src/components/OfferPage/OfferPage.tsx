@@ -1,6 +1,5 @@
 
 import { useState } from 'react';
-import {Link} from 'react-router-dom';
 import { OfferDescription, OfferIdDescription } from '../../types/offerDescription.ts';
 import { review } from '../../types/review.ts';
 import ReviewForm from '../ReviewForm/ReviewForm.tsx';
@@ -8,6 +7,7 @@ import ReviewList from '../ReviewList/ReviewList.tsx';
 import OfferList from '../OfferList/OfferList.tsx';
 import Map from '../Map/Map.tsx';
 import { CITY } from '../../mocks/city.ts';
+import UserHeaderInfo from '../UserHeaderInfo/UserHeaderInfo.tsx';
 
 function OfferPage({ offer, offerList, guestReview, city}: {offer:OfferIdDescription ; offerList:OfferDescription[]; guestReview:review[];city:string}):JSX.Element{
   const [selectedPoint, setSelectedPoint] = useState<OfferDescription | undefined>(undefined);
@@ -18,36 +18,7 @@ function OfferPage({ offer, offerList, guestReview, city}: {offer:OfferIdDescrip
   return (
 
     <div className="page">
-      <header className="header">
-        <div className="container">
-          <div className="header__wrapper">
-            <div className="header__left">
-              <a className="header__logo-link" href="main.html">
-                <Link to = "/">
-                  <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41"/>
-                </Link>
-              </a>
-            </div>
-            <nav className="header__nav">
-              <ul className="header__nav-list">
-                <li className="header__nav-item user">
-                  <a className="header__nav-link header__nav-link--profile" href="#">
-                    <div className="header__avatar-wrapper user__avatar-wrapper">
-                    </div>
-                    <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
-                    <span className="header__favorite-count">3</span>
-                  </a>
-                </li>
-                <li className="header__nav-item">
-                  <a className="header__nav-link" href="#">
-                    <span className="header__signout">Sign out</span>
-                  </a>
-                </li>
-              </ul>
-            </nav>
-          </div>
-        </div>
-      </header>
+      <UserHeaderInfo/>
 
       <main className="page__main page__main--offer">
         <section className="offer">

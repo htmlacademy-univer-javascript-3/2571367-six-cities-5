@@ -5,6 +5,8 @@ export enum APIRoute {
   FavouriteList = '/favorite',
   SetFavourite = '/favorite/{offerId}/{status}',
   Comments = '/comments/{offerId}',
-  Auth = '/login',
-  LogOut = '/logout'
+  Login = '/login',
+  Logout = '/logout'
 }
+
+export const TIMEOUT_SHOW_ERROR = 2000;
