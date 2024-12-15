@@ -1,22 +1,43 @@
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
+import OfferList from '../OfferList/OfferList.tsx';
 import { Link } from 'react-router-dom';
-import { useAppSelector } from '../../hooks/index.tsx';
-import { CITY } from '../../mocks/city.ts';
-import { Point } from '../../types/points.ts';
-import { CityOfferDescription } from '../../types/offerDescription.ts';
-import CityList from '../CityList/CityList.tsx';
 import Map from '../Map/Map';
-import OfferList from '../../components/OfferList/OfferList.tsx';
+import { useAppSelector } from '../../hooks';
+import { CITY } from '../../mocks/city.ts';
+import CityList from '../CityList/CityList.tsx';
+import { OfferDescription } from '../../types/offerDescription.ts';
+import SortFilter from '../SortFilter/SortFilter.tsx';
+import { FILTERS } from '../../mocks/filter';
 
-function MainPage({ MapProps }: { MapProps:CityOfferDescription}):JSX.Element{
-  const {offer} = MapProps;
-  const [selectedPoint, setSelectedPoint] = useState<Point | undefined>(undefined);
+function MainPage({ offerList }: { offerList: OfferDescription[] }): JSX.Element {
+  const [selectedPoint, setSelectedPoint] = useState<OfferDescription | undefined>(undefined);
+  const [selectedFilter, setFilter] = useState<string>(FILTERS[0]);
   const cityName = useAppSelector((state) => state.city);
-
+  const sortedOffers = useMemo(() => {
+    const sorted = [...offerList];
+    switch (selectedFilter) {
+      case FILTERS[1]:
+        return sorted.sort((a, b) => a.price - b.price);
+      case FILTERS[2]:
+        return sorted.sort((a, b) => b.price - a.price);
+      case FILTERS[3]:
+        return sorted.sort((a, b) => b.rating - a.rating);
+      default:
+        return sorted;
+    }
+  }, [offerList, selectedFilter]);
   const handleListItemHover = (listItemId: string) => {
-    const currentPoint = offer.find((point) => point.id.toString() === listItemId)?.point;
-    setSelectedPoint(currentPoint);
+    const currentPoint = offerList.find((point) => point.id === listItemId);
+    if (currentPoint !== selectedPoint) {
+      setSelectedPoint(currentPoint);
+    }
+  };
+
+  const handleFilterEnter = (filter: string) => {
+    if (filter !== selectedFilter) {
+      setFilter(filter);
+    }
   };
 
   return(
@@ -26,8 +47,8 @@ function MainPage({ MapProps }: { MapProps:CityOfferDescription}):JSX.Element{
           <div className="header__wrapper">
             <div className="header__left">
               <a className="header__logo-link header__logo-link--active">
-                <Link to = "/">
-                  <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41"/>
+                <Link to="/">
+                  <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41" />
                 </Link>
               </a>
             </div>
@@ -56,36 +77,30 @@ function MainPage({ MapProps }: { MapProps:CityOfferDescription}):JSX.Element{
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
           <section className="locations container">
-            <CityList/>
+            <CityList offerList={offerList} />
           </section>
         </div>
         <div className="cities">
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{CITY.filter((c) => c.title === cityName)[0].placesToStay} places to stay in {cityName}</b>
+              <b className="places__found">{offerList.filter((i)=> i.city.name === cityName).length} places to stay in {cityName}</b>
               <form className="places__sorting" action="#" method="get">
-                <span className="places__sorting-caption">Sort by</span>
-                <span className="places__sorting-type" tabIndex={0}>
-                  Popular
-                  <svg className="places__sorting-arrow" width="7" height="4">
-                    <use xlinkHref="#icon-arrow-select"></use>
-                  </svg>
-                </span>
-                <ul className="places__options places__options--custom places__options--opened">
-                  <li className="places__option places__option--active" tabIndex={0}>Popular</li>
-                  <li className="places__option" tabIndex={0}>Price: low to high</li>
-                  <li className="places__option" tabIndex={0}>Price: high to low</li>
-                  <li className="places__option" tabIndex={0}>Top rated first</li>
-                </ul>
+                <SortFilter filter={selectedFilter} handleFilterEnter={handleFilterEnter} />
               </form>
               <div className="cities__places-list places__list tabs__content">
-                <OfferList offer={offer} onListItemHover={handleListItemHover} isMainPage />
+                <OfferList offer={sortedOffers} onListItemHover={handleListItemHover} isMainPage city={cityName}/>
               </div>
             </section>
             <div className="cities__right-section">
               <section className="cities__map map">
-                <Map city={CITY.filter((c) => c.title === cityName)[0]} selectedPoint={selectedPoint } offer={MapProps.offer} height={407.27} width={512} />
+                <Map
+                  city={CITY.filter((c) => c.title === cityName)[0]}
+                  selectedOffer={offerList.filter((i) => i.id === selectedPoint?.id)[0] }
+                  offerList={offerList}
+                  height={407.27}
+                  width={512}
+                />
               </section>
             </div>
           </div>
