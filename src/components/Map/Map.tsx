@@ -9,6 +9,8 @@ import useMap from '../../hooks/useMap';
 import { City } from '../../types/points';
 import { OfferDescription } from '../../types/offerDescription';
 
+import React from 'react';
+
 type MapProps = {
   city: City;
   height:number;
@@ -63,4 +65,4 @@ function Map(props: MapProps): JSX.Element {
   return <div style={{ height: `${height}px`, width: `${width}px`, margin: '0 auto' }} ref={mapRef}></div>;
 }
 
-export default Map;
+export default React.memo(Map);

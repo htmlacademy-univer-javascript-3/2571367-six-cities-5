@@ -10,6 +10,7 @@ export type Comment =
     comment: string;
     rating: number;
 };
+export type CommentList = Comment[];
 export type CommentPost =
 {
     rating:number;
