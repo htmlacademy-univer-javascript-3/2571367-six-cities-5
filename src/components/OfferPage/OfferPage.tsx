@@ -81,7 +81,7 @@ function OfferPage({ offer, offerList, city}: {offer:OfferIdDescription ; offerL
                 <li className="offer__feature offer__feature--entire">
                   Max {offer.maxAdults} Adults
                 </li>
-                )
+                
 
               </ul>
               <div className="offer__price">
