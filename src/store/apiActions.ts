@@ -5,7 +5,7 @@ import {AppDispatch, State} from '../types/state.js';
 import {OfferDescription, OfferIdDescription} from '../types/offerDescription.js';
 import {redirectToRoute, fillUserEmail} from './cityAction.js';
 import {APIRoute} from '../mocks/apiRoutes.js';
-import {saveToken, dropToken} from '../services/token.ts';
+import {saveToken, dropToken, getToken} from '../services/token.ts';
 import { AuthData } from '../types/authData.ts';
 import {loginVerification, UserData} from '../types/userData.ts';
 import {AppRoute} from '../mocks/login.ts';
@@ -42,13 +42,21 @@ export const checkAuthAction = createAsyncThunk<string, string, {
 }>(
   'user/checkAuth',
   async (token, {extra: api}) => {
-    try {
-      const {data: {email}} = await api.get<loginVerification>(APIRoute.Login,{params:{'X-Token':token}});
-      return email;
-    } catch (error){
-      return 'error';
-    }
+    const {data: {email}} = await api.get<loginVerification>(APIRoute.Login,{params:{'X-Token':token}});
+    return email;
   },
+);
+
+export const getFavourites = createAsyncThunk<OfferDescription[], string, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'data/getFavourites',
+  async(token, {extra : api}) => {
+    const {data} = await api.get<OfferDescription[]>(APIRoute.FavouriteList, {params : {'X-Token' : token}});
+    return (data);
+  }
 );
 
 export const loginAction = createAsyncThunk<void, AuthData, {
@@ -60,6 +68,8 @@ export const loginAction = createAsyncThunk<void, AuthData, {
   async ({login: email, password}, {dispatch, extra: api}) => {
     const {data: {token}} = await api.post<UserData>(APIRoute.Login, {email, password});
     saveToken(token);
+    dispatch(checkAuthAction(getToken()));
+    dispatch(getFavourites(getToken()));
     dispatch(fillUserEmail(email));
     dispatch(redirectToRoute(AppRoute.Main));
   },
@@ -102,14 +112,35 @@ export const fetchComments = createAsyncThunk<Comment[], string, {
   },
 );
 
-export const postComment = createAsyncThunk<Comment[], CommentPost, {
+export const postComment = createAsyncThunk<void, CommentPost, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 }>(
-  'post/Comment',
-  async ({comment, rating, id}, {extra: api}) => {
-    const {data} = await api.post<CommentList>(`${APIRoute.Comments}/${id}`, {comment, rating});
-    return data;
+  'data/postComment',
+  async ({comment, rating, id}, {dispatch, extra: api}) => {
+    await api.post<CommentList>(`${APIRoute.Comments}/${id}`, {comment, rating});
+    dispatch(fetchComments(id));
   },
+);
+
+type setFavourite = {
+  offerId: string;
+  status:number;
+  isOfferPage: boolean;
+}
+export const setFavourites = createAsyncThunk<void, setFavourite, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'data/setFavourites',
+  async({offerId, status, isOfferPage}, {dispatch, extra : api}) => {
+    await api.post<OfferDescription[]>(`${APIRoute.FavouriteList}/${offerId}/${status}`);
+    dispatch(fetchOffers());
+    dispatch(getFavourites(getToken()));
+    if (isOfferPage){
+      dispatch(fetchOffer(offerId));
+    }
+  }
 );

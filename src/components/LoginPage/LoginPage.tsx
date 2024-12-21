@@ -1,22 +1,37 @@
 
-import { useRef, FormEvent } from 'react';
+import {useRef, FormEvent, useState} from 'react';
+import React from 'react';
 import { useAppDispatch } from '../../hooks';
 import { loginAction } from '../../store/apiActions';
-import React from 'react';
+import '../../../markup/css/errorMessage.css';
+import { AppRoute } from '../../mocks/login';
+import { Link } from 'react-router-dom';
 
 function LoginPage():JSX.Element{
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
+  const [isPasswordError, setPasswordError] = useState<boolean>(false);
 
   const dispatch = useAppDispatch();
+  const showPasswordError = () => {
+    setPasswordError(true);
+    setTimeout(() =>setPasswordError(false), 2000);
+  };
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    if (loginRef.current !== null && passwordRef.current !== null) {
-
-      dispatch(loginAction({
-        login: loginRef.current.value,
-        password: passwordRef.current.value
-      }));
+    const letterMask = /[A-Za-z]/g;
+    const numberMask = /[0-9]/g;
+    if (passwordRef.current !== null){
+      const isPasswordValid = letterMask.test(passwordRef.current.value) && numberMask.test(passwordRef.current.value);
+      if (loginRef.current !== null && isPasswordValid) {
+        dispatch(loginAction({
+          login: loginRef.current.value,
+          password: passwordRef.current.value
+        }));
+      }
+      if (!isPasswordValid){
+        showPasswordError();
+      }
     }
   };
   return(
@@ -25,9 +40,9 @@ function LoginPage():JSX.Element{
         <div className="container">
           <div className="header__wrapper">
             <div className="header__left">
-              <a className="header__logo-link" href="main.html">
+              <Link to ={AppRoute.Main}>
                 <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41"/>
-              </a>
+              </Link>
             </div>
           </div>
         </div>
@@ -63,6 +78,10 @@ function LoginPage():JSX.Element{
                 />
               </div>
               <button className="login__submit form__submit button" type="submit">Sign in</button>
+              {isPasswordError ?
+                <div className = "error-message">
+              write password with at least 1 letter and 1 number
+                </div> : null}
             </form>
           </section>
           <section className="locations locations--login locations--current">

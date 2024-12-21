@@ -23,4 +23,5 @@ export type DataProcess = {
   offer: OfferIdDescription ;
   nearbyOffers: OfferDescription[];
   comments:CommentList;
+  favouriteList: OfferDescription[];
 }

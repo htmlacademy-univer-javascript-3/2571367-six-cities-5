@@ -27,7 +27,6 @@ function MainPage({ offerList }: { offerList: OfferDescription[] }): JSX.Element
   const sortedOffersMemo = useMemo(() => sortedOffers, [sortedOffers]);
   const authStatusMemo = useMemo(() => authStatus, [authStatus]);
   const userEmailMemo = useMemo(() => userEmail, [userEmail]);
-  const offerListMemo = useMemo(() => offerList, [offerList]);
   const selectedFilterMemo = useMemo(() => selectedFilter,[selectedFilter]);
 
   const handleListItemHover = useCallback((listItemId: string) => {
@@ -51,7 +50,7 @@ function MainPage({ offerList }: { offerList: OfferDescription[] }): JSX.Element
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
           <section className="locations container">
-            <CityList offerList={offerListMemo} />
+            <CityList/>
           </section>
         </div>
         <div className="cities">
