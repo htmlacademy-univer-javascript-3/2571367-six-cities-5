@@ -7,7 +7,7 @@ function ReviewList({guestReview}:{guestReview:Comment[]}){
     <>
       <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{guestReview.length}</span></h2>
       <ul className="reviews__list">
-        {guestReview.map((rev) =>
+        {guestReview.slice(0,10).map((rev) =>
           (
             <Review key = {rev.id} guestReview={rev}/>
           ))}

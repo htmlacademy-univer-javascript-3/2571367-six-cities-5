@@ -2,9 +2,12 @@
 import { OfferDescription } from '../../types/offerDescription.ts';
 import { Link } from 'react-router-dom';
 import { MouseEvent} from 'react';
-import { fetchComments, fetchOffer, fetchOfferNeibourhood } from '../../store/apiActions.ts';
+import { fetchComments, fetchOffer, fetchOfferNeibourhood, setFavourites } from '../../store/apiActions.ts';
 import { store } from '../../store/index.ts';
 import React from 'react';
+import { useAppSelector } from '../../hooks/index.ts';
+import { getAuthorizationStatus } from '../../store/selectors.ts';
+import { AppRoute, AuthorizationStatus } from '../../mocks/login.ts';
 
 type MainPageCardProps = {
   offer: OfferDescription;
@@ -13,9 +16,19 @@ type MainPageCardProps = {
 };
 
 function MainPageCard({ offer, onListItemHover, isMainPage}: MainPageCardProps): JSX.Element {
+  const authStatus = useAppSelector(getAuthorizationStatus);
   const handleListItemHover = (event: MouseEvent<HTMLLIElement>) => {
     event.preventDefault();
     onListItemHover((offer.id));
+  };
+  const handleFavouriteClick = (event: MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    const favouriteInfo = {
+      offerId:offer.id,
+      status: offer.isFavorite ? 0 : 1,
+      isOfferPage: false
+    };
+    store.dispatch(setFavourites(favouriteInfo));
   };
   const handleListItemLeave = (event: MouseEvent<HTMLLIElement>) => {
     event.preventDefault();
@@ -49,12 +62,21 @@ function MainPageCard({ offer, onListItemHover, isMainPage}: MainPageCardProps):
             <b className="place-card__price-value">&euro;{offer.price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button className={offer.isFavorite === true ? 'place-card__bookmark-button place-card__bookmark-button--active button' : 'place-card__bookmark-button button'} type="button">
-            <svg className="place-card__bookmark-icon" width="18" height="19">
-              <use xlinkHref="#icon-bookmark"/>
-            </svg>
-            <span className="visually-hidden">{offer.isFavorite === true ? 'In bookmarks' : 'To bookmarks'}</span>
-          </button>
+          {(authStatus === AuthorizationStatus.Auth) ?
+            <button className={offer.isFavorite ? 'place-card__bookmark-button place-card__bookmark-button--active button' : 'place-card__bookmark-button button'} type="button" onClick={handleFavouriteClick}>
+              <svg className="place-card__bookmark-icon" width="18" height="19">
+                <use xlinkHref="#icon-bookmark"/>
+              </svg>
+              <span className="visually-hidden">{offer.isFavorite ? 'In bookmarks' : 'To bookmarks' }</span>
+            </button> :
+            <button className={'place-card__bookmark-button button'} type="button">
+              <Link to = {AppRoute.Login}>
+                <svg className="place-card__bookmark-icon" width="18" height="19">
+                  <use xlinkHref="#icon-bookmark"/>
+                </svg>
+              </Link>
+              <span className="visually-hidden">To bookmarks</span>
+            </button>}
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
