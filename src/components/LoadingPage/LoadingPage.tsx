@@ -1,10 +1,10 @@
-import '../../../markup/css/spinner.css';
-function LoadingScreen(): JSX.Element {
+import './spinner.css';
+function LoadingPage(): JSX.Element {
   return (
-    <div className="spinner-overlay">
-      <div className="spinner"></div>
+    <div className="spinner-overlay" data-testid="spinner-container">
+      <div className="spinner" data-testid="spinner"></div>
     </div>
   );
 }
 
-export default LoadingScreen;
+export default LoadingPage;

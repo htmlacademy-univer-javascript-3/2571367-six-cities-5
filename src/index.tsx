@@ -1,3 +1,4 @@
+
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import {Provider} from 'react-redux';
@@ -7,6 +8,8 @@ import { checkAuthAction, fetchOffers, getFavourites } from './store/apiActions.
 import {ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { getToken } from './services/token.ts';
+import browserHistory from './services/browserHistory.ts';
+import HistoryRouter from './components/HistoryRouter/HistoryRouter.tsx';
 
 store.dispatch(checkAuthAction(getToken()));
 store.dispatch(fetchOffers());
@@ -20,8 +23,10 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <ToastContainer/>
-      <App/>
+      <HistoryRouter history={browserHistory}>
+        <ToastContainer/>
+        <App/>
+      </HistoryRouter>
     </Provider>
   </React.StrictMode>
 );
