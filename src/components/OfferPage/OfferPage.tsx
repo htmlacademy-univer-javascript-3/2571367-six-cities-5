@@ -1,31 +1,39 @@
-
-import { useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { OfferDescription, OfferIdDescription } from '../../types/offerDescription.ts';
-import ReviewForm from '../ReviewForm/ReviewForm.tsx';
 import ReviewList from '../ReviewList/ReviewList.tsx';
+import ReviewForm from '../ReviewForm/ReviewForm.tsx';
 import OfferList from '../OfferList/OfferList.tsx';
 import Map from '../Map/Map.tsx';
 import { CITY } from '../../mocks/city.ts';
 import UserHeaderInfo from '../UserHeaderInfo/UserHeaderInfo.tsx';
-import { useAppSelector } from '../../hooks/index.tsx';
-import { Comment } from '../../types/comment.ts';
+import { useAppSelector } from '../../hooks/index.ts';
+import { CommentList } from '../../types/comment.ts';
 import { AuthorizationStatus } from '../../mocks/login.ts';
+import { getAuthorizationStatus, getComments, getOffersNearby, getUserEmail } from '../../store/selectors.ts';
 
 function OfferPage({ offer, offerList, city}: {offer:OfferIdDescription ; offerList:OfferDescription[]; city:string}):JSX.Element{
   const [selectedPoint, setSelectedPoint] = useState<OfferDescription | undefined>(undefined);
-  const authStatus = useAppSelector((state) => state.authorizationStatus);
 
-  const handleListItemHover = (listItemId: string) => {
+  const authStatus = useAppSelector(getAuthorizationStatus);
+  const authStatusMemo = useMemo(() => authStatus,[authStatus]);
+
+  const userEmail = useAppSelector(getUserEmail);
+  const userEmailMemo = useMemo(() => userEmail,[userEmail]);
+
+  const handleListItemHover = useCallback((listItemId: string) => {
     const currentPoint = offerList.find((o) => o.id.toString() === listItemId);
     setSelectedPoint(currentPoint);
-  };
+  },[selectedPoint]);
 
-  const nearbyOffers = useAppSelector((store) => store.nearbyOffers);
-  const comments:Comment[] = useAppSelector((store) => store.comments);
+  const nearOffers = useAppSelector(getOffersNearby);
+  const nearbyOffers = useMemo(() => nearOffers, [nearOffers]);
+
+  const commentList:CommentList = useAppSelector(getComments);
+  const comments = useMemo(()=> commentList,[commentList]);
   return (
 
     <div className="page">
-      <UserHeaderInfo/>
+      <UserHeaderInfo authStatus={authStatusMemo} userEmail={userEmailMemo}/>
 
       <main className="page__main page__main--offer">
         <section className="offer">
@@ -137,4 +145,4 @@ function OfferPage({ offer, offerList, city}: {offer:OfferIdDescription ; offerL
     </div>
   );
 }
-export default OfferPage;
+export default (OfferPage);

@@ -1,29 +1,24 @@
+
 import { OfferDescription } from '../../types/offerDescription.ts';
-import {useState} from 'react';
 import { Link } from 'react-router-dom';
-import {MouseEvent} from 'react';
+import { MouseEvent} from 'react';
 import { fetchComments, fetchOffer, fetchOfferNeibourhood } from '../../store/apiActions.ts';
 import { store } from '../../store/index.ts';
-
-type CardIdProps = {onAnswer: (cardId:string) => void}
+import React from 'react';
 
 type MainPageCardProps = {
   offer: OfferDescription;
   onListItemHover: (listItemName: string) => void;
   isMainPage:boolean;
-} & CardIdProps;
+};
 
-function MainPageCard({ offer, onAnswer, onListItemHover, isMainPage}: MainPageCardProps): JSX.Element {
-  const [cardId, setCardId] = useState('0');
+function MainPageCard({ offer, onListItemHover, isMainPage}: MainPageCardProps): JSX.Element {
   const handleListItemHover = (event: MouseEvent<HTMLLIElement>) => {
     event.preventDefault();
-    setCardId(offer.id);
     onListItemHover((offer.id));
-    onAnswer(cardId);
   };
   const handleListItemLeave = (event: MouseEvent<HTMLLIElement>) => {
     event.preventDefault();
-    setCardId('0');
     onListItemHover('0');
 
   };
@@ -78,4 +73,4 @@ function MainPageCard({ offer, onAnswer, onListItemHover, isMainPage}: MainPageC
 
   );
 }
-export default MainPageCard;
+export default React.memo(MainPageCard);

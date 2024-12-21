@@ -20,12 +20,10 @@ function OfferList(OfferListProps:OfferListProps){
           offer={offerItem}
           onListItemHover={onListItemHover}
           isMainPage={isMainPage}
-          onAnswer={() => {
-            throw new Error('Function \'onAnswer\' isn\'t implemented.');
-          }}
         />
       ))}
     </div>
   );
 }
-export default OfferList;
+
+export default (OfferList);

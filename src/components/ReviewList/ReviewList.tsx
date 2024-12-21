@@ -1,5 +1,6 @@
 import Review from '../Review/Review';
 import { Comment } from '../../types/comment';
+import React from 'react';
 
 function ReviewList({guestReview}:{guestReview:Comment[]}){
   return(
@@ -14,4 +15,5 @@ function ReviewList({guestReview}:{guestReview:Comment[]}){
     </>
   );
 }
-export default ReviewList;
+
+export default React.memo(ReviewList);
