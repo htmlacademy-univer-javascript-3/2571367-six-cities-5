@@ -60,7 +60,7 @@ function ReviewForm(){
   return(
 
     <form className="reviews__form form" action="#" method="post"
-      onSubmit={handleSubmit}
+      onSubmit={handleSubmit} data-testid = "review-form"
     >
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div className="reviews__rating-form form__rating">

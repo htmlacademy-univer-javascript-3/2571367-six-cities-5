@@ -4,12 +4,12 @@ import UserHeaderInfo from '../UserHeaderInfo/UserHeaderInfo';
 
 function MainEmpty({authStatus, userEmail, cityName}:{authStatus:AuthorizationStatus; userEmail:string; cityName:string}){
   return(
-    <div className="page page--gray page--main">
+    <div className="page page--gray page--main" data-testid = "user-info">
       <UserHeaderInfo authStatus = {authStatus} userEmail = {userEmail}/>
       <main className="page__main page__main--index page__main--index-empty">
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
-          <section className="locations container">
+          <section className="locations container" data-testid = "citylist">
             <CityList/>
           </section>
         </div>

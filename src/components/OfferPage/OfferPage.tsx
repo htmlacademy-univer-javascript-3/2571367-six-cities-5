@@ -52,8 +52,8 @@ function OfferPage({ offer, offerList, city}: {offer:OfferIdDescription ; offerL
       <UserHeaderInfo authStatus={authStatusMemo} userEmail={userEmailMemo}/>
 
       <main className="page__main page__main--offer">
-        <section className="offer">
-          <div className="offer__gallery-container container">
+        <section className="offer" data-testid = "offer-info">
+          <div className="offer__gallery-container container" data-testid = "offer-gallery">
             <div className="offer__gallery">
               {offer.images.map((image) => (
                 <div key={image} className="offer__image-wrapper">
@@ -123,7 +123,7 @@ function OfferPage({ offer, offerList, city}: {offer:OfferIdDescription ; offerL
                   ))}
                 </ul>
               </div>
-              <div className="offer__host">
+              <div className="offer__host" data-testid = "host-info">
                 <h2 className="offer__host-title">Meet the host</h2>
                 <div className="offer__host-user user">
                   <div className="offer__avatar-wrapper offer__avatar-wrapper--pro user__avatar-wrapper">
@@ -143,14 +143,14 @@ function OfferPage({ offer, offerList, city}: {offer:OfferIdDescription ; offerL
 
                 </div>
               </div>
-              <section className="offer__reviews reviews">
+              <section className="offer__reviews reviews" data-testid = "reviews">
                 <ReviewList guestReview = {[...comments].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())}/>
                 {authStatus === AuthorizationStatus.Auth ? <ReviewForm/> : null}
               </section>
 
             </div>
           </div>
-          <section className="offer__map map">
+          <section className="offer__map map" data-testid = "map">
             <Map
               city={CITY.filter((c) => c.title === city)[0]}
               selectedOffer={offerList.filter((i) => i.id === offer?.id)[0] }
@@ -161,7 +161,7 @@ function OfferPage({ offer, offerList, city}: {offer:OfferIdDescription ; offerL
           </section>
         </section>
         <div className="container">
-          <section className="near-places places">
+          <section className="near-places places" data-testid = "nearby-places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
             <OfferList offer={nearbyOffers.slice(0,3)} onListItemHover={()=>{}} isMainPage = {false} city={city}/>
           </section>

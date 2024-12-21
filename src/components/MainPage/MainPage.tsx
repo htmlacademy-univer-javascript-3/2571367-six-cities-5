@@ -1,4 +1,3 @@
-
 import { useState, useMemo, useCallback } from 'react';
 import OfferList from '../OfferList/OfferList.tsx';
 import Map from '../Map/Map';
@@ -49,7 +48,7 @@ function MainPage({ offerList }: { offerList: OfferDescription[] }): JSX.Element
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
-          <section className="locations container">
+          <section className="locations container" data-testid="citylist">
             <CityList/>
           </section>
         </div>
