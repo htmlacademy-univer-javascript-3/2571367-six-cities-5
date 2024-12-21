@@ -1,8 +1,8 @@
 import { useCallback, useMemo, useState } from 'react';
 import { OfferDescription, OfferIdDescription } from '../../types/offerDescription.ts';
+import ReviewForm from '../../components/ReviewForm/ReviewForm.tsx';
 import ReviewList from '../ReviewList/ReviewList.tsx';
-import ReviewForm from '../ReviewForm/ReviewForm.tsx';
-import OfferList from '../OfferList/OfferList.tsx';
+import OfferList from '../../components/OfferList/OfferList.tsx';
 import Map from '../Map/Map.tsx';
 import { CITY } from '../../mocks/city.ts';
 import UserHeaderInfo from '../UserHeaderInfo/UserHeaderInfo.tsx';
@@ -81,7 +81,7 @@ function OfferPage({ offer, offerList, city}: {offer:OfferIdDescription ; offerL
                 <li className="offer__feature offer__feature--entire">
                   Max {offer.maxAdults} Adults
                 </li>
-                
+                )
 
               </ul>
               <div className="offer__price">
